@@ -1,0 +1,6 @@
+# Crear nuevo proyecto
+ng new [nombre del proyecto]
+
+# Levantar la app (y abrirla en el navegador)
+ng serve --open
+ng serve -o
