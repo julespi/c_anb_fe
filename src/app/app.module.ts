@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { DirectiveComponent } from './directive/directive.component';
 import { ClientsComponent } from './clients/clients.component'
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http'
 
 const routes: Routes = [
   {path: '', redirectTo: '/clients', pathMatch:'full'},
@@ -24,6 +25,7 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],
