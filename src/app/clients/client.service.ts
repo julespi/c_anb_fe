@@ -1,23 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Client } from './client'
-import { CLIENTS } from './clientes.json'
+import { Client } from './client';
+import { CLIENTS } from './clientes.json';
 import { Observable, of, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientService {
+  private urlEndpoint: string = 'http://localhost:8080/api/clients';
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  private urlEndpoint:string = 'http://localhost:8080/api/clients';
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  getClients(): Observable<Client[]>{
-    //return of(CLIENTS);
+  getClients(): Observable<Client[]> {
     //return this.http.get<Client[]>(this.urlEndpoint)  es lo mismo que lo de abajo
-    return this.http.get(this.urlEndpoint).pipe(
-      map( response => response as Client[] )
-    );
+    return this.http
+      .get(this.urlEndpoint)
+      .pipe(map((response) => response as Client[]));
+  }
+
+  createClient(client: Client): Observable<Client> {
+    return this.http
+      .post(this.urlEndpoint, client, { headers: this.httpHeaders })
+      .pipe(map((response) => response as Client));
   }
 }
