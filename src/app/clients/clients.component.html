@@ -1,4 +1,4 @@
-<div class="card border-primary mb-3">
+<div class="card border-primary">
   <div class="card-header">Clients</div>
   <div class="card-body text-primary">
     <h5 class="card-title">Listado de clientes</h5>
@@ -12,8 +12,13 @@
         Create
       </button>
     </div>
-
-    <table class="table table-bordered table-striped table-hover">
+    <div *ngIf="clients?.length == 0" class="alert-info">
+      No records in database
+    </div>
+    <table
+      class="table table-bordered table-striped table-hover"
+      *ngIf="clients?.length > 0"
+    >
       <thead>
         <tr>
           <th>Id</th>
@@ -37,13 +42,17 @@
               name="edit"
               [routerLink]="['/clients/form', client.id]"
               class="btn btn-primary btn-sm me-3"
-            >Edit</button>
+            >
+              Edit
+            </button>
             <button
               type="button"
               name="delete"
               (click)="delete(client)"
               class="btn btn-danger btn-sm"
-            >Delete</button>
+            >
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
