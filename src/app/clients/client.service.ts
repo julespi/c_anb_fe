@@ -25,4 +25,14 @@ export class ClientService {
       .post(this.urlEndpoint, client, { headers: this.httpHeaders })
       .pipe(map((response) => response as Client));
   }
+
+  getClient(id): Observable<Client> {
+    return this.http.get<Client>(`${this.urlEndpoint}/${id}`);
+  }
+
+  updateClient(client: Client): Observable<Client> {
+    return this.http.put<Client>(`${this.urlEndpoint}/${client.id}`, client, {
+      headers: this.httpHeaders,
+    });
+  }
 }

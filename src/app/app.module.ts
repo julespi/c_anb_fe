@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'directives', component: DirectiveComponent },
   { path: 'clients', component: ClientsComponent },
   { path: 'clients/form', component: FormComponent },
+  { path: 'clients/form/:id', component: FormComponent },
 ];
 
 @NgModule({
