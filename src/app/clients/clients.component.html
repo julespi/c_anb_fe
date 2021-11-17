@@ -21,6 +21,7 @@
           <th>Last name</th>
           <th>Email</th>
           <th>Created</th>
+          <th>Options</th>
         </tr>
       </thead>
       <tbody>
@@ -33,10 +34,16 @@
           <td>
             <button
               type="button"
-              name="button"
+              name="edit"
               [routerLink]="['/clients/form', client.id]"
-              class="btn btn-primary"
+              class="btn btn-primary btn-sm me-3"
             >Edit</button>
+            <button
+              type="button"
+              name="delete"
+              (click)="delete(client)"
+              class="btn btn-danger btn-sm"
+            >Delete</button>
           </td>
         </tr>
       </tbody>
