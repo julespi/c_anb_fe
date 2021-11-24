@@ -56,4 +56,8 @@ export class FormComponent implements OnInit {
       );
     });
   }
+
+  public cancel(): void {
+    this.router.navigate(['/clients']);
+  }
 }

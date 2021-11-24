@@ -18,42 +18,46 @@ export class ClientService {
     //return this.http.get<Client[]>(this.urlEndpoint)  es lo mismo que lo de abajo
     return this.http
       .get(this.urlEndpoint)
-      .pipe(map((response) => response as Client[]));
+      .pipe(map((response: any) => response.payload as Client[]));
   }
 
   createClient(client: Client): Observable<Client> {
     return this.http
       .post(this.urlEndpoint, client, { headers: this.httpHeaders })
-      .pipe(map((response) => response as Client))
+      .pipe(map((response: any) => response.payload as Client))
       .pipe(
         catchError((e) => {
           console.error(e.error.message);
-          Swal.fire(e.error.message, e.error.error, 'error');
+          Swal.fire(e.error.message, e.error.payload, 'error');
           return throwError(() => new Error(e));
         })
       );
   }
 
   getClient(id: number): Observable<Client> {
-    return this.http.get<Client>(`${this.urlEndpoint}/${id}`).pipe(
-      catchError((e) => {
-        this.router.navigate(['/clients']);
-        console.error(e.error.message);
-        Swal.fire(e.error.message, e.error.error, 'error');
-        return throwError(() => new Error(e));
-      })
-    );
+    return this.http
+      .get(`${this.urlEndpoint}/${id}`)
+      .pipe(map((response: any) => response.payload as Client))
+      .pipe(
+        catchError((e) => {
+          this.router.navigate(['/clients']);
+          console.error(e.error.message);
+          Swal.fire(e.error.message, e.error.payload, 'error');
+          return throwError(() => new Error(e));
+        })
+      );
   }
 
   updateClient(client: Client): Observable<Client> {
     return this.http
-      .put<Client>(`${this.urlEndpoint}/${client.id}`, client, {
+      .put(`${this.urlEndpoint}/${client.id}`, client, {
         headers: this.httpHeaders,
       })
+      .pipe(map((response: any) => response.payload as Client))
       .pipe(
         catchError((e) => {
           console.error(e.error.message);
-          Swal.fire(e.error.message, e.error.error, 'error');
+          Swal.fire(e.error.message, e.error.payload, 'error');
           return throwError(() => new Error(e));
         })
       );
@@ -61,13 +65,14 @@ export class ClientService {
 
   deleteClient(id: number): Observable<Client> {
     return this.http
-      .delete<Client>(`${this.urlEndpoint}/${id}`, {
+      .delete(`${this.urlEndpoint}/${id}`, {
         headers: this.httpHeaders,
       })
+      .pipe(map((response: any) => response.payload as Client))
       .pipe(
         catchError((e) => {
           console.error(e.error.message);
-          Swal.fire(e.error.message, e.error.error, 'error');
+          Swal.fire(e.error.message, e.error.payload, 'error');
           return throwError(() => new Error(e));
         })
       );

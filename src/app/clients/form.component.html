@@ -3,7 +3,7 @@
     {{ title }}
   </div>
   <div class="card-body">
-    <form>
+    <form #client_form="ngForm">
       <div class="form-group row pb-2">
         <label for="name" class="col-form-label col-sm-2">Name</label>
         <div class="col-sm-6">
@@ -12,7 +12,19 @@
             class="form-control"
             [(ngModel)]="client.name"
             name="name"
+            required
+            minlength="4"
+            #name="ngModel"
           />
+          <div
+            class="alert-danger"
+            *ngIf="name.invalid && (name.dirty || name.touched)"
+          >
+            <div *ngIf="name.errors.required">Name is required</div>
+            <div *ngIf="name.errors.minlength">
+              Name must be at least four characters long
+            </div>
+          </div>
         </div>
       </div>
       <div class="form-group row pb-2">
@@ -23,7 +35,19 @@
             class="form-control"
             [(ngModel)]="client.last_name"
             name="last_name"
+            required
+            minlength="4"
+            #last_name="ngModel"
           />
+          <div
+            class="alert-danger"
+            *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)"
+          >
+            <div *ngIf="last_name.errors.required">Last name is required</div>
+            <div *ngIf="last_name.errors.minlength">
+              Last name must be at least four characters long
+            </div>
+          </div>
         </div>
       </div>
       <div class="form-group row pb-2">
@@ -34,16 +58,48 @@
             class="form-control"
             [(ngModel)]="client.email"
             name="email"
+            required
+            email
+            #email="ngModel"
           />
+          <div
+            class="alert-danger"
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+          >
+            <div *ngIf="email.errors.required">Email is required</div>
+            <div *ngIf="email.errors.email">Email format not valid</div>
+          </div>
         </div>
       </div>
 
       <div class="form-group row pb-2">
         <div class="col-sm-6">
-          <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!client.id else elseBlock">Create</button>
+          <button
+            class="btn btn-primary"
+            role="button"
+            (click)="create()"
+            *ngIf="!client.id; else elseBlock"
+            [disabled]="!client_form.form.valid"
+          >
+            Create
+          </button>
           <ng-template #elseBlock>
-            <button class="btn btn-primary" role="button" (click)="update()">Update</button>
+            <button
+              class="btn btn-primary"
+              role="button"
+              (click)="update()"
+              [disabled]="!client_form.form.valid"
+            >
+              Update
+            </button>
           </ng-template>
+          <button
+            class="btn btn-danger ms-3"
+            role="button"
+            (click)="cancel()"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </form>
