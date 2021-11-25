@@ -27,9 +27,12 @@ export class ClientService {
       .pipe(map((response: any) => response.payload as Client))
       .pipe(
         catchError((e) => {
+          if (e.status == 400) {
+            return throwError(() => e);
+          }
           console.error(e.error.message);
           Swal.fire(e.error.message, e.error.payload, 'error');
-          return throwError(() => new Error(e));
+          return throwError(() => e);
         })
       );
   }
@@ -43,7 +46,7 @@ export class ClientService {
           this.router.navigate(['/clients']);
           console.error(e.error.message);
           Swal.fire(e.error.message, e.error.payload, 'error');
-          return throwError(() => new Error(e));
+          return throwError(() => new e);
         })
       );
   }
@@ -56,9 +59,12 @@ export class ClientService {
       .pipe(map((response: any) => response.payload as Client))
       .pipe(
         catchError((e) => {
+          if (e.status == 400) {
+            return throwError(() => e);
+          }
           console.error(e.error.message);
           Swal.fire(e.error.message, e.error.payload, 'error');
-          return throwError(() => new Error(e));
+          return throwError(() => e);
         })
       );
   }
@@ -73,7 +79,7 @@ export class ClientService {
         catchError((e) => {
           console.error(e.error.message);
           Swal.fire(e.error.message, e.error.payload, 'error');
-          return throwError(() => new Error(e));
+          return throwError(() => e);
         })
       );
   }
