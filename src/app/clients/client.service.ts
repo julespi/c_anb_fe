@@ -59,7 +59,7 @@ export class ClientService {
       .pipe(map((response: any) => response.payload as Client))
       .pipe(
         catchError((e) => {
-          if (e.status == 400) {
+          if (e.status == 400) { // BAD REQUEST
             return throwError(() => e);
           }
           console.error(e.error.message);

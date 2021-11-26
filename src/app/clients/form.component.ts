@@ -12,7 +12,7 @@ import swal from 'sweetalert2';
 export class FormComponent implements OnInit {
   public client: Client = new Client();
   public title: string = 'Create new client';
-  private errors: string[];
+  public errors: string[];
 
   constructor(
     private clientService: ClientService,
@@ -47,22 +47,28 @@ export class FormComponent implements OnInit {
       },
       error: (err) => {
         this.errors = err.error.payload as string[];
-        console.error("Backend error "+err.status);
+        console.error('Backend error ' + err.status);
         console.error(err.error.payload);
-        
-      }}
-    );
+      },
+    });
   }
 
   public update(): void {
-    this.clientService.updateClient(this.client).subscribe((client) => {
-      this.client = client;
-      this.router.navigate(['/clients']);
-      swal.fire(
-        'Success!',
-        `Client ${client.name} updated successfully`,
-        'success'
-      );
+    this.clientService.updateClient(this.client).subscribe({
+      next: (client) => {
+        this.client = client;
+        this.router.navigate(['/clients']);
+        swal.fire(
+          'Success!',
+          `Client ${client.name} updated successfully`,
+          'success'
+        );
+      },
+      error: (err) => {
+        this.errors = err.error.payload as string[];
+        console.error('Backend error ' + err.status);
+        console.error(err.error.payload);
+      },
     });
   }
 
