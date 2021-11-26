@@ -4,6 +4,7 @@ import { Observable, map, catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { formatDate } from '@angular/common'
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,16 @@ export class ClientService {
 
   getClients(): Observable<Client[]> {
     //return this.http.get<Client[]>(this.urlEndpoint)  es lo mismo que lo de abajo
-    return this.http
-      .get(this.urlEndpoint)
-      .pipe(map((response: any) => response.payload as Client[]));
+    return this.http.get(this.urlEndpoint).pipe(
+      map((response: any) => {
+        let clients = response.payload as Client[];
+        return clients.map( (client) => {
+          //client.name = client.name.toUpperCase();
+          client.created = formatDate(client.created,'EEEE dd, MMMM, yyyy','en-US')
+          return client;
+        });
+      })
+    );
   }
 
   createClient(client: Client): Observable<Client> {
@@ -46,7 +54,7 @@ export class ClientService {
           this.router.navigate(['/clients']);
           console.error(e.error.message);
           Swal.fire(e.error.message, e.error.payload, 'error');
-          return throwError(() => new e);
+          return throwError(() => new e());
         })
       );
   }
@@ -59,7 +67,8 @@ export class ClientService {
       .pipe(map((response: any) => response.payload as Client))
       .pipe(
         catchError((e) => {
-          if (e.status == 400) { // BAD REQUEST
+          if (e.status == 400) {
+            // BAD REQUEST
             return throwError(() => e);
           }
           console.error(e.error.message);
