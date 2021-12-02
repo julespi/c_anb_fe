@@ -10,6 +10,7 @@ import { ClientService } from './client.service';
 })
 export class ClientsComponent implements OnInit {
   clients: Client[];
+  paginator:any;
 
   constructor(
     private clientService: ClientService,
@@ -24,7 +25,10 @@ export class ClientsComponent implements OnInit {
       }
       this.clientService
         .getClients(page)
-        .subscribe((response) => (this.clients = response.content as Client[]));
+        .subscribe((response) => {
+          this.clients = response.content as Client[];
+          this.paginator = response;
+        });
     });
   }
 

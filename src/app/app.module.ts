@@ -10,6 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormComponent } from './clients/form.component';
 import { FormsModule } from '@angular/forms';
+import { PaginatorComponent } from './paginator/paginator.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/clients', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
     DirectiveComponent,
     ClientsComponent,
     FormComponent,
+    PaginatorComponent,
   ],
   imports: [
     BrowserModule,
