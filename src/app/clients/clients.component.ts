@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Client } from './client';
 import { ClientService } from './client.service';
@@ -10,13 +11,21 @@ import { ClientService } from './client.service';
 export class ClientsComponent implements OnInit {
   clients: Client[];
 
-  constructor(private clientService: ClientService) {}
+  constructor(
+    private clientService: ClientService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    let page = 0;
-    this.clientService
-      .getClients(page)
-      .subscribe((response) => (this.clients = response.content as Client[]));
+    this.activatedRoute.paramMap.subscribe((params) => {
+      let page: number = +params.get('page');
+      if (!page) {
+        page = 0;
+      }
+      this.clientService
+        .getClients(page)
+        .subscribe((response) => (this.clients = response.content as Client[]));
+    });
   }
 
   public delete(client: Client): void {
