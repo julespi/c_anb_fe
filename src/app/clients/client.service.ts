@@ -4,7 +4,7 @@ import { Observable, map, catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { formatDate } from '@angular/common'
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -15,16 +15,18 @@ export class ClientService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getClients(): Observable<Client[]> {
-    //return this.http.get<Client[]>(this.urlEndpoint)  es lo mismo que lo de abajo
-    return this.http.get(this.urlEndpoint).pipe(
+  getClients(page: number): Observable<any> {
+    return this.http.get(this.urlEndpoint + '/page/' + page).pipe(
       map((response: any) => {
-        let clients = response.payload as Client[];
-        return clients.map( (client) => {
-          //client.name = client.name.toUpperCase();
-          client.created = formatDate(client.created,'EEEE dd, MMMM, yyyy','en-US')
+        (response.payload.content as Client[]).map((client) => {
+          client.created = formatDate(
+            client.created,
+            'EEEE dd, MMMM, yyyy',
+            'en-US'
+          );
           return client;
         });
+        return response.payload;
       })
     );
   }

@@ -13,9 +13,10 @@ export class ClientsComponent implements OnInit {
   constructor(private clientService: ClientService) {}
 
   ngOnInit(): void {
+    let page = 0;
     this.clientService
-      .getClients()
-      .subscribe((clients) => (this.clients = clients));
+      .getClients(page)
+      .subscribe((response) => (this.clients = response.content as Client[]));
   }
 
   public delete(client: Client): void {
