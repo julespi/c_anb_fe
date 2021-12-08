@@ -12,7 +12,18 @@ export class PaginatorComponent implements OnInit, OnChanges {
 
   constructor() {}
 
+  ngOnInit(): void {   
+    this.initPaginator(); 
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    let updatedPaginator = changes['paginator'];
+    if(updatedPaginator.previousValue){
+      this.initPaginator();
+    }
+  }
+
+  private initPaginator(): void{
     this.from = Math.min(
       Math.max(1, this.paginator.number - 4),
       this.paginator.totalPages - 5
@@ -30,8 +41,5 @@ export class PaginatorComponent implements OnInit, OnChanges {
         .fill(0)
         .map((_value, index) => index + 1);
     }
-  }
-
-  ngOnInit(): void {    
   }
 }
