@@ -31,7 +31,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let client of clients">
-          <td>{{ client.id }}</td>
+          <td><button type="button" [routerLink]="['/clients/detail', client.id]" class="btn btn-success btn-sm">{{ client.id }}</button></td>
           <td>{{ client.name }}</td>
           <td>{{ client.last_name }}</td>
           <td>{{ client.email }}</td>
@@ -41,7 +41,7 @@
               type="button"
               name="edit"
               [routerLink]="['/clients/form', client.id]"
-              class="btn btn-primary btn-sm me-3"
+              class="btn btn-primary btn-sm mr-3"
             >
               Edit
             </button>

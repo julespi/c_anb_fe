@@ -94,4 +94,20 @@ export class ClientService {
         })
       );
   }
+
+  upload(file: File, id): Observable<Client>{
+    let formData = new FormData();
+    formData.append("file", file);
+    formData.append("id", id);
+    return this.http.post(`${this.urlEndpoint}/upload`,formData)
+      .pipe(map((response: any) => response.payload as Client))
+      .pipe(
+        catchError((e) => {
+          console.error(e.error.message);
+          Swal.fire(e.error.message, e.error.payload, 'error');
+          return throwError(() => e);
+        })
+
+      );
+  }
 }
